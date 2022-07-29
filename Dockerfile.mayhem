@@ -16,3 +16,9 @@ RUN apt-get install --quiet --assume-yes \
 COPY . Nauz-File-Detector
 
 RUN cd Nauz-File-Detector &&  bash -x build_dpkg.sh && bash -x install.sh
+
+FROM ${image} as package
+RUN apt-get update --quiet
+RUN apt-get install --quiet --assume-yes \
+      qt5-default 
+COPY --from=builder /usr/bin/nfdc /

@@ -1,5 +1,5 @@
-project: rnshah9/nauz-file-detector
+project: nauz-file-detector
 target: nauz-file-detector
 
 cmds:
-  - cmd: /usr/bin/nfdc @@
+  - cmd: /nfdc @@
