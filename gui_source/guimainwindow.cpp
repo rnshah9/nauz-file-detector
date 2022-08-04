@@ -74,6 +74,7 @@ void GuiMainWindow::scanFile(QString sFileName)
         options.bRecursiveScan=ui->checkBoxRecursiveScan->isChecked();
         options.bDeepScan=ui->checkBoxDeepScan->isChecked();
         options.bHeuristicScan=ui->checkBoxHeuristicScan->isChecked();
+        options.bVerbose=ui->checkBoxVerbose->isChecked();
         options.bAllTypesScan=ui->checkBoxAllTypesScan->isChecked();
 
 //#ifdef QT_DEBUG
@@ -105,6 +106,8 @@ void GuiMainWindow::_scan(QString sName)
     else if(fi.isDir())
     {
         DialogStaticScanDirectory dds(this,sName);
+        dds.setGlobal(nullptr,&g_xOptions);
+
         dds.exec();
 
         adjustWindow();
@@ -200,7 +203,14 @@ void GuiMainWindow::adjustWindow()
 
 void GuiMainWindow::on_pushButtonDirectoryScan_clicked()
 {
-    DialogStaticScanDirectory dds(this,QFileInfo(ui->lineEditFileName->text()).absolutePath());
+    QString sFolderPath=QFileInfo(ui->lineEditFileName->text()).absolutePath();
+
+    if(sFolderPath=="")
+    {
+        sFolderPath=g_xOptions.getLastDirectory();
+    }
+
+    DialogStaticScanDirectory dds(this,sFolderPath);
 
     dds.exec();
 
